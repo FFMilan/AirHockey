@@ -27,8 +27,13 @@ function Pad(){
 		return {context : ctx, x : x, y : y, dimentions : dims, radius : radius};
 	}
 
-	this.applyForce = function(newVector){
+	this.applyForce = function(newVector, timer){
+		/* apply the force for the given time */
+		var atimer = (timer)? timer : 100;
 		vector = newVector;
+		setTimeout(function() {
+			vector = new Vector(0, 0)
+		}, atimer);
 	}
 
 	return this;
