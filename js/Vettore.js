@@ -1,6 +1,7 @@
-function Vector(ang, inte) {
-
+function Vector(ang, inte, dir) {
 	/* private attributes */
+	console.log(dir);
+	var direct = (dir !== undefined)? dir : true;
 	var ang = (ang) ? ang : 0;
 	var intensity = (inte) ? inte : 50;
 	
@@ -37,7 +38,11 @@ function Vector(ang, inte) {
 	}
 
 	this.getComponents = function(){
-		return {x : (Math.cos(ang) * intensity), y : (Math.sin(ang) * intensity)};
+		console.log(direct);
+		if(direct)
+			return {x : (Math.cos(ang) * intensity), y : (Math.sin(ang) * intensity)};
+		else
+			return {x : -(Math.cos(ang) * intensity), y : -(Math.sin(ang) * intensity)};
 	};
 
 	this.add = function(v) {

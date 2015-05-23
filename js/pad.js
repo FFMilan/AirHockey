@@ -25,19 +25,44 @@ function Pad(){
 
 	this.getForceApplied = vector;
 
-	this.drawPad = function(){
+	function drawPad(){
 		x += vector.getComponents().x;
 		y += vector.getComponents().y;
 		return {context : canvas, x : x - radius, y : y - radius, dimentions : dims, radius : radius};
 	}
 
-	this.applyForce = function(newVector, timer){
+	this.animateUntil = function(angle,distance,direction,mainctx,power){
+		animate(angle,distance,direction,mainctx,power);
+	}
+
+	function applyForce(newVector){
 		/* apply the force for the given time */
-		var atimer = (timer)? timer : 100;
+		var atimer = 100;
 		vector = newVector;
-		setTimeout(function() {
-			vector = new Vector(0, 0)
-		}, atimer);
+	}
+
+	var increm = 0;
+	var distance = 0;
+	function animate(angle,exdistance,direction,mainctx,power){
+		console.log("animating",power,distance,exdistance);
+		if((distance == exdistance || distance == 0) && increm <= distance){
+			distance = exdistance;
+			mainctx.clearRect(x-radius-2, y-radius-2, dims+4, dims+4);
+			applyForce(new Vector(angle,power/5,direction));
+			drawPad();
+			mainctx.drawImage(canvas, x-radius, y-radius);
+			increm +=power/5;
+			window.requestAnimationFrame(function(){
+				animate(angle,exdistance,direction,mainctx,power);
+			});
+		}else{
+			distance = 0;
+			increm = 0;
+		}
+	}
+
+	this.drawPad = function(cont){
+		cont.drawImage(canvas,x-radius,y-radius);
 	}
 
 	return this;
