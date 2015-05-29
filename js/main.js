@@ -1,4 +1,6 @@
+field = new Field();
 var pad = new Pad();
+
 
 window.onload = function() {
   console.log("here");
@@ -8,8 +10,6 @@ window.onload = function() {
 	var ratio = window.innerHeight / 7;
 	canvas.height = window.innerHeight;
 	canvas.width = ratio * 15;
-
-	var field = new Field();
 	
 	pad.drawPad(ctx);
 	

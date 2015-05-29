@@ -45,7 +45,8 @@ function Pad(){
 	var distance = 0;
 	function animate(angle,exdistance,direction,mainctx,power){
 		console.log("animating",power,distance,exdistance);
-		if((distance == exdistance || distance == 0) && increm <= distance){
+		console.log((distance == exdistance || distance == 0) && increm <= distance && x -radius > 0 && x +radius < window.innerWidth && y -radius> 0 && y +radius < window.innerHeight);
+		if((distance == exdistance || distance == 0) && increm <= distance && x -radius > 0 && x +radius < window.innerWidth && y -radius > 0 && y +radius < window.innerHeight){
 			distance = exdistance;
 			mainctx.clearRect(x-radius-2, y-radius-2, dims+4, dims+4);
 			applyForce(new Vector(angle,power/5,direction));

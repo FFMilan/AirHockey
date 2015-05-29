@@ -24,13 +24,16 @@ function Field() {
 		var posX = elem.getPosition().x;
 		var posY = elem.getPosition().y;
 		var bounds = [0,y,0,x];
-		for (bound of bounds) {
+		if((posX > 0+radius && posX < x-radius) && (posY > 0+radius && posY < y-radius))
+		/*for (bound of bounds) {
 			var distance = posX + posY + bound;
 			if(distance <= radius) {
 				return true;
 			}
-		}
-		return false;
+		}*/
+			return false;
+		else
+			return true;
 	}
 
 	this.collidesWith = function(elem1, elem2) {
