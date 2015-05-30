@@ -53,11 +53,11 @@ function Pad(){
 		console.log("collisions? ",collisions);
 		////console.log((distance == exdistance || distance == 0) && increm <= distance && x -radius > 0 && x +radius < window.innerWidth && y -radius> 0 && y +radius < window.innerHeight);
 		//if((distance == exdistance || distance == 0) && increm <= distance && x -radius > 0 && x +radius < window.innerWidth && y -radius > 0 && y +radius < window.innerHeight){
-		if(collisions == 1) {
+		if(collisions == 2) {
 			angle = -angle;
 			vector.setAngle(angle);
 		}
-		else if(collisions == 2) {
+		else if(collisions == 1) {
 			angle = -Math.PI - angle;
 			vector.setAngle(angle);
 		}
