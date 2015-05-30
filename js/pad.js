@@ -5,6 +5,7 @@ function Pad(){
 	var radius = dims / 2;
 	var x = dims * 2;
 	var y = dims * 3;
+	var collisions = 0;
 
 	canvas.height = dims;
 	canvas.width = dims;
@@ -14,6 +15,7 @@ function Pad(){
     	ctx.fill();
 
 	var vector = new Vector(0, 0);
+	vector.setFriction(1.02);
 
 	this.getCenterPosition = function(){
 		return {x : x, y : y, dims : dims, radius : radius};
@@ -31,39 +33,74 @@ function Pad(){
 		return {context : canvas, x : x - radius, y : y - radius, dimentions : dims, radius : radius};
 	}
 
-	this.animateUntil = function(angle,distance,direction,mainctx,power){
-		animate(angle,distance,direction,mainctx,power);
+	this.animateUntil = function(angle,distance,direction,mainctx, collisions){
+		animate(angle,distance,direction,mainctx, collisions);
 	}
 
-	function applyForce(newVector){
+	function applyForce(angle, direction){
+		//console.log(angle);
 		/* apply the force for the given time */
 		var atimer = 100;
-		vector = newVector;
+		//vector = newVector;
+		vector.applyFriction();
+		vector.setAngle(angle);
+		vector.setDirection(direction);
 	}
 
 	var increm = 0;
 	var distance = 0;
-	function animate(angle,exdistance,direction,mainctx,power){
-		console.log("animating",power,distance,exdistance);
-		console.log((distance == exdistance || distance == 0) && increm <= distance && x -radius > 0 && x +radius < window.innerWidth && y -radius> 0 && y +radius < window.innerHeight);
-		if((distance == exdistance || distance == 0) && increm <= distance && x -radius > 0 && x +radius < window.innerWidth && y -radius > 0 && y +radius < window.innerHeight){
-			distance = exdistance;
-			mainctx.clearRect(x-radius-2, y-radius-2, dims+4, dims+4);
-			applyForce(new Vector(angle,power/5,direction));
-			drawPad();
-			mainctx.drawImage(canvas, x-radius, y-radius);
-			increm +=power/5;
-			window.requestAnimationFrame(function(){
-				animate(angle,exdistance,direction,mainctx,power);
-			});
-		}else{
-			distance = 0;
-			increm = 0;
+	function animate(angle,exdistance,direction,mainctx, collisions){
+		console.log("collisions? ",collisions);
+		////console.log((distance == exdistance || distance == 0) && increm <= distance && x -radius > 0 && x +radius < window.innerWidth && y -radius> 0 && y +radius < window.innerHeight);
+		//if((distance == exdistance || distance == 0) && increm <= distance && x -radius > 0 && x +radius < window.innerWidth && y -radius > 0 && y +radius < window.innerHeight){
+		if(collisions == 1) {
+			angle = -angle;
+			vector.setAngle(angle);
 		}
+		else if(collisions == 2) {
+			angle = -Math.PI - angle;
+			vector.setAngle(angle);
+		}
+		console.log(vector.get());
+		mainctx.clearRect(x-radius-2, y-radius-2, dims+4, dims+4);
+		applyForce(angle, direction);
+
+		drawPad();
+		mainctx.drawImage(canvas, x-radius, y-radius);
+		collisions = collidesBounds();
+		console.log(collisions);
+		window.requestAnimationFrame(function(){
+			animate(angle,exdistance,direction,mainctx, collisions);
+		});
 	}
 
 	this.drawPad = function(cont){
 		cont.drawImage(canvas,x-radius,y-radius);
+	}
+
+	function collidesBounds() {
+		if(collidesLeftRight())
+			return 1;
+		else if(collidesUpDown())
+			return 2;
+		else
+			return 0;
+	}
+
+	/* Collision with y=0 and y=innerWidth */
+	function collidesLeftRight() {
+		if(x <= radius || x + radius >= field.getWidth()) {
+			return true;
+		}
+		return false;
+	}
+
+	/* Collision with x=0 and x=innerHeight */
+	function collidesUpDown() {
+		if(y <= radius || y + radius >= field.getHeight()) {
+			return true;
+		}
+		return false;
 	}
 
 	return this;

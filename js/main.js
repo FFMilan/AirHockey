@@ -15,9 +15,8 @@ window.onload = function() {
 	
 	var lastPress = null;
 	var direction = null;
-	//var power = 100;
 
-	//var incrementer = null;
+	var incrementer = null;
 	canvas.addEventListener("mousedown",function(e){
 		//check if the pad is pressed
 		if(isOver({x : e.clientX, y: e.clientY},
@@ -43,9 +42,8 @@ window.onload = function() {
 			direction = (e.clientX > lastPress.x)? true : false;
 			distance = Math.sqrt(Math.pow(e.clientX - lastPress.x, 2) + Math.pow(e.clientY - lastPress.y, 2), 2);
 			angle = Math.atan((e.clientY - lastPress.y) / (e.clientX - lastPress.x));
-			//power = (power < 0) ? 0 : power;
-			pad.animateUntil(angle,distance,direction,ctx);//,power);
-			//power = 100;
+			var collisions = 0;
+			pad.animateUntil(angle,distance,direction,ctx,collisions);
 		}
 	});
 }
@@ -53,3 +51,14 @@ window.onload = function() {
 function isOver(point,elem){
 	return (point.x > elem.x && point.x < elem.x2) && (point.y > elem.y && point.y < elem.y2)
 }
+
+/*function padBoundCollisions(p) {
+	var pad = p;
+	var colls = field.collidesBounds(pad);
+	console.log(colls);
+	if(colls == 1)
+		pad.reflectX();
+	else if(colls == 2)
+		pad.reflectY();
+	//window.requestAnimationFrame(padBoundCollisions(pad));
+}*/

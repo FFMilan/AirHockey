@@ -19,31 +19,36 @@ function Field() {
 		elements.push(elem);
 	}
 
-	/* Check elem-bounds collisions 
-	 *
-	 * Idea: an element collide with bounds only in
-	 * 4 positions (N,S,E,W). So we're checking
-	 * the element doesn't collide with field bounds
-	 * in this pisitions.
-	 */
-	this.collidesBounds = function(elem) {
+	/*this.collidesBounds = function(elem) {
+		var el = elem;
+		if(collidesLeftRight(el))
+			return 1;
+		else if(collidesUpDown(el))
+			return 2;
+		else
+			return 0;
+	}*/
+
+	/* Collision with y=0 and y=innerWidth */
+	/*function collidesLeftRight(elem) {
 		var radius = elem.getPosition().radius;
 		var posX = elem.getPosition().x;
-		var posY = elem.getPosition().y;
-		var bounds = [0,y,0,x];
-		//if((posX > 0+radius && posX < x-radius) && (posY > 0+radius && posY < y-radius))
-		for (bound of bounds) {
-			var distance = posX + posY + bound;
-			if(distance <= radius) {
-				return true;
-			}
+		if(posX <= radius || posX + radius >= x) {
+			return true;
 		}
 		return false;
-		/*else
-			return true;*/
-	}
+	}*/
 
-	/* Check 2-elems collision using distance between elems */
+	/* Collision with x=0 and x=innerHeight */
+	/*function collidesUpDown(elem) {
+		var radius = elem.getPosition().radius;
+		var posY = elem.getPosition().y;
+		if(posY <= radius || posY + radius >= y) {
+			return true;
+		}
+		return false;
+	}*/
+
 	this.collidesWith = function(elem1, elem2) {
 		var radius1 = elem1.getPosition().radius;
 		var radius2 = elem2.getPosition().radius;

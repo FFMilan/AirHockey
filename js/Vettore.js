@@ -1,9 +1,10 @@
 function Vector(ang, inte, dir) {
 	/* private attributes */
-	console.log(dir);
+	//console.log(dir);
 	var direct = (dir !== undefined)? dir : true;
 	var ang = (ang) ? ang : 0;
 	var intensity = (inte) ? inte : 50;
+	var friction = 1;
 	
 	/* private functions */
 
@@ -16,20 +17,32 @@ function Vector(ang, inte, dir) {
 	}
 
 	/* public methods */
-	this.getAngle = ang;
+	this.getAngle = function() {
+		return ang;
+	}
 
-	this.getIntensity = intensity;
+	this.getIntensity = function() {
+		return intensity;
+	}
 
 	this.setAngle = function (num) {
 		ang = num;
+	}
+
+	this.setDirection = function(direction) {
+		dir = direction;
 	}
 
 	this.setIntensity = function (num) {
 		intensity = num;
 	}
 
+	this.setFriction = function(num) {
+		friction = num;
+	}
+
 	this.get = function() {
-		return {angle : ang, intensity : intensity};
+		return {angle : ang, intensity : intensity, friction : friction};
 	}
 
 	this.set = function(Vector) {
@@ -38,7 +51,7 @@ function Vector(ang, inte, dir) {
 	}
 
 	this.getComponents = function(){
-		console.log(direct);
+		//console.log(direct);
 		if(direct)
 			return {x : (Math.cos(ang) * intensity), y : (Math.sin(ang) * intensity)};
 		else
@@ -55,6 +68,10 @@ function Vector(ang, inte, dir) {
 	this.symmetricalTo = function(ang_asse) {
 		ang = ang_asse - ang + ang_asse;
 	};
+
+	this.applyFriction = function() {
+		intensity = intensity / friction;
+	}
 
 	return this;
 };
