@@ -5,7 +5,33 @@ window.onload = function() {
 	canvas.height = window.innerHeight;
 	canvas.width = ratio * 15;
 
-	var field = new Field();
-	var pad = new Pad();
-	
+	var world = Physics();
+	var renderer = Physics.renderer(canvas, {
+		meta: false,
+		styles: {
+			'circle' : {
+				strokeStyle: 'hsla(60, 37%, 17%, 1)',
+				lineWidth: 1,
+				fillStyle: 'hsla(60, 37%, 57%, 0.8)',
+				angleIndicator: 'hsla(60, 37%, 17%, 0.4)'
+			}
+		}
+	});
+	world.add(renderer);
+	world.on('step', function(){
+		world.render();
+	});
+	var pad = Physics.body("circle", {
+		x: 50,
+		y: 50,
+		radius: 20
+	});
+	world.add(pad);
+	/*var field = new Field();
+	var pad = new Pad();*/
+
+	Physics.util.ticker.on(function(time, dt){
+		world.step(time);
+	});
+	Physics.util.ticker.start();
 }
