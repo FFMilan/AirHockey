@@ -26,7 +26,7 @@ window.onload = function() {
 			y2 : pad.getPosition().y + pad.getPosition().dims}
 			)){
 			lastPress = {x : pad.getCenterPosition().x, y: pad.getCenterPosition().y};
-			//incrementer = setInterval(function(){power -= 10},120);
+			console.log(pad.getCenterPosition(), "\n", lastPress);
 		} else {
 			lastPress = null;
 			direction = null;
@@ -38,7 +38,7 @@ window.onload = function() {
 
 	canvas.addEventListener("mouseup",function(e){
 		if(lastPress){
-			//clearInterval(incrementer);
+			console.log(e);
 			direction = (e.clientX > lastPress.x)? true : false;
 			distance = Math.sqrt(Math.pow(e.clientX - lastPress.x, 2) + Math.pow(e.clientY - lastPress.y, 2), 2);
 			angle = Math.atan((e.clientY - lastPress.y) / (e.clientX - lastPress.x));
@@ -51,14 +51,3 @@ window.onload = function() {
 function isOver(point,elem){
 	return (point.x > elem.x && point.x < elem.x2) && (point.y > elem.y && point.y < elem.y2)
 }
-
-/*function padBoundCollisions(p) {
-	var pad = p;
-	var colls = field.collidesBounds(pad);
-	console.log(colls);
-	if(colls == 1)
-		pad.reflectX();
-	else if(colls == 2)
-		pad.reflectY();
-	//window.requestAnimationFrame(padBoundCollisions(pad));
-}*/

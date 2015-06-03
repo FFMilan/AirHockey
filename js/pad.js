@@ -38,10 +38,8 @@ function Pad(){
 	}
 
 	function applyForce(angle, direction){
-		//console.log(angle);
 		/* apply the force for the given time */
-		var atimer = 100;
-		//vector = newVector;
+		//var atimer = 100;
 		vector.applyFriction();
 		vector.setAngle(angle);
 		vector.setDirection(direction);
@@ -50,9 +48,7 @@ function Pad(){
 	var increm = 0;
 	var distance = 0;
 	function animate(angle,exdistance,direction,mainctx, collisions){
-		console.log("collisions? ",collisions);
-		////console.log((distance == exdistance || distance == 0) && increm <= distance && x -radius > 0 && x +radius < window.innerWidth && y -radius> 0 && y +radius < window.innerHeight);
-		//if((distance == exdistance || distance == 0) && increm <= distance && x -radius > 0 && x +radius < window.innerWidth && y -radius > 0 && y +radius < window.innerHeight){
+		//console.log("collisions? ",collisions);
 		if(collisions == 2) {
 			angle = -angle;
 			vector.setAngle(angle);
@@ -61,14 +57,14 @@ function Pad(){
 			angle = -Math.PI - angle;
 			vector.setAngle(angle);
 		}
-		console.log(vector.get());
+		//console.log(vector.get());
 		mainctx.clearRect(x-radius-2, y-radius-2, dims+4, dims+4);
 		applyForce(angle, direction);
 
 		drawPad();
 		mainctx.drawImage(canvas, x-radius, y-radius);
 		collisions = collidesBounds();
-		console.log(collisions);
+		//console.log(collisions);
 		window.requestAnimationFrame(function(){
 			animate(angle,exdistance,direction,mainctx, collisions);
 		});

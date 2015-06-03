@@ -1,13 +1,11 @@
 function Vector(ang, inte, dir) {
 	/* private attributes */
-	//console.log(dir);
 	var direct = (dir !== undefined)? dir : true;
 	var ang = (ang) ? ang : 0;
 	var intensity = (inte) ? inte : 50;
 	var friction = 1;
 	
 	/* private functions */
-
 	function getAngle(a, b) {
 		return Math.atan((a[1] + b[1]) / (a[0] + b[0]));
 	}
@@ -51,7 +49,6 @@ function Vector(ang, inte, dir) {
 	}
 
 	this.getComponents = function(){
-		//console.log(direct);
 		if(direct)
 			return {x : (Math.cos(ang) * intensity), y : (Math.sin(ang) * intensity)};
 		else
@@ -71,6 +68,8 @@ function Vector(ang, inte, dir) {
 
 	this.applyFriction = function() {
 		intensity = intensity / friction;
+		if(intensity < 0.01)
+			intensity = 0;
 	}
 
 	return this;
