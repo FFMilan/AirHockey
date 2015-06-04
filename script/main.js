@@ -7,18 +7,17 @@ window.onload = function() {
 	document.body.style.height = window.innerHeight;
 	document.body.style.width = ratio * 15;
 
+	// Setting some colors
+	var colors = {
+		blue: "hsla(265, 100%, 50%, 1)",
+		red: "hsla(360, 100%, 50%, 1)"
+	};
+
 	// Create a world and a renderer
 	var world = Physics();
 	var renderer = Physics.renderer("canvas", {
 		el: "my_canvas",
-		meta: false,
-		styles: {
-			"circle" : {
-				strokeStyle: "hsla(60, 37%, 17%, 1)",
-				lineWidth: 1,
-				fillStyle: "hsla(60, 37%, 57%, 0.8)"
-			}
-		}
+		meta: false
 	});
 	world.add(renderer);
 	world.on("step", function() {
@@ -30,9 +29,28 @@ window.onload = function() {
 		x: 50,
 		y: 50,
 		radius: ratio/2,
-		treatment: "dynamic"
+		treatment: "dynamic",
+		styles: {
+			fillStyle: colors.red,
+			strokeStyle: colors.red,
+			lineWidth: 1
+		}
 	});
 	world.add(pad);
+
+	// Create a ball
+	var ball = Physics.body("circle", {
+		x: 200,
+		y: 200,
+		radius: ratio/2.5,
+		treatment: "dynamic",
+		styles: {
+			fillStyle: colors.blue,
+			strokeStyle: colors.blue,
+			lineWidth: 1
+		}
+	});
+	world.add(ball);
 
 	// Setting "field" bounds and collisions with it
 	var bounds = Physics.aabb(0, 0, ratio * 15, window.innerHeight);
@@ -41,6 +59,8 @@ window.onload = function() {
 		restitution: 0.3
 	}));
 	world.add(Physics.behavior("body-impulse-response"));
+	world.add(Physics.behavior("body-collision-detection"));
+	world.add(Physics.behavior("sweep-prune"));
 	world.add(Physics.behavior("interactive", {
 		el: "my_canvas"
 	}));
